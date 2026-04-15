@@ -1,6 +1,6 @@
 import express from "express";
 // 1. Curly braces {} lagana zaroori hai agar named export hai
-import { submitContact } from '../controllers/contactController.js';
+import { submitContact } from '../controller/contactController.js';
 
 const router = express.Router();
 
