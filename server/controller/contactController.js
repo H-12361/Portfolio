@@ -1,30 +1,22 @@
-import express from "express";
-import sendEmail from "../utils/sendEmail.js"; // ✅ ADD THIS
+import Contact from "../models/contactModel.js"; // Model import zaroor karein
 
-const router = express.Router();
-
-router.post("/send", async (req, res) => {
+// 1. Export lagana zaroori hai
+export const submitContact = async (req, res) => {
   try {
     const { name, email, message } = req.body;
 
-    await sendEmail({
-      to: process.env.EMAIL_USER,
-      subject: "New Contact Message",
-      text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
-    });
+    const newContact = new Contact({ name, email, message });
+    await newContact.save();
 
-    res.status(200).json({
+    res.status(201).json({
       success: true,
-      message: "Email sent",
+      message: "Contact saved successfully!",
     });
-
   } catch (error) {
-    console.log("Email sending error:", error);
     res.status(500).json({
       success: false,
-      message: "Failed to send email",
+      message: "Server Error",
+      error: error.message,
     });
   }
-});
-
-export default router;
+};

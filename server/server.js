@@ -9,6 +9,8 @@ dotenv.config();
 connectDB();
 
 const app = express();
+app.use(express.json()); // 👈 YE LINE HONA SABSE ZAROORI HAI
+app.use(express.urlencoded({ extended: true })); // 👈 Isko bhi add kar dein
 
 // Middleware
 app.use(cors());

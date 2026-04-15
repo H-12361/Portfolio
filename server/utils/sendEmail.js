@@ -1,20 +1,23 @@
-import transporter from "../config/nodeMailer.js";
+import nodemailer from "nodemailer";
 
-
-
-const sendEmail = async ({ to, subject, text }) => {
-
-  console.log("USER:", process.env.EMAIL_USER);
-  console.log("PASS:", process.env.EMAIL_PASS);
-
-  await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to,
-    subject,
-    text,
+const sendEmail = async (options) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER, // Check karein ye .env se aa raha hai
+      pass: process.env.EMAIL_PASS, // Check karein ye .env se aa raha hai
+    },
   });
 
-  console.log("MAIL SENT SUCCESS");
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: options.to,
+    subject: options.subject,
+    text: options.text,
+    html: options.html,
+  };
+
+  await transporter.sendMail(mailOptions);
 };
 
 export default sendEmail;
